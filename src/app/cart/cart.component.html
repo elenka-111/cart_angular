@@ -1,0 +1,24 @@
+
+<h1 class="title">Корзина</h1>
+<div class="cart" *ngIf="cartServise.selectedCart.length;else noItems">
+  <div class="cart__item item" *ngFor="let cartItem of cartServise.selectedCart;">
+    <div>{{ cartItem.name }}</div>
+    <div>
+      <input type="number" [value]="cartItem.count" min="1" (change)="changeCount($event, cartItem.id)"/>
+      <strong>{{ cartItem.price }}</strong> US dollars
+      <button class="item_delete-btn" (click)="delete(cartItem.id)">Удалить</button>
+    </div>
+  </div>
+</div>
+<ng-template #noItems>
+  <p>Нет товаров в корзине</p>
+</ng-template>
+<div class="total">
+  <h3>Итого</h3>
+  <div class="change-total">
+    <h4>{{ cartServise.getTotalPrice() | number:'1.2' }}</h4>
+    <select class="change-total__select" (change)="changeValute($event)" >
+      <option [selected]="cartServise.currency.active === valute.key" *ngFor="let valute of cartServise.currency.available | keyvalue;" value="{{ valute.key }}">{{valute.value}}</option>
+    </select>
+  </div>
+</div>
